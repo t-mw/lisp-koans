@@ -50,8 +50,16 @@
 ; Your goal is to write the score method.
 
 (defun score (dice)
-  ; You need to write this method
-)
+  (flet ((calc-score (z set-score single-score)
+           (multiple-value-bind (set-count single-count) (floor (count z dice) 3)
+             (+ (* set-count set-score) (* single-count single-score)))))
+    (let ((v 0))
+      (loop for z from 1 to 6 do
+        (case z
+          (1 (incf v (calc-score z 1000 100)))
+          (5 (incf v (calc-score z 500 50)))
+          (t (incf v (calc-score z (* 100 z) 0)))))
+      v)))
 
 (define-test test-score-of-an-empty-list-is-zero
     (assert-equal 0 (score nil)))

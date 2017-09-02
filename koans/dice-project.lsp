@@ -22,17 +22,16 @@
 
 ;;  YOU WRITE THIS PART:
 (defclass dice-set ()
-  () ;; WRITE DICE-SET CLASS BODY HERE
+  ((values :writer set-values)) ;; WRITE DICE-SET CLASS BODY HERE
 )
 
 (defmethod get-values ((object dice-set))
-  ;; WRITE GET-VALUES METHOD DEFINITION HERE
+  (slot-value object 'values)
 )
 
 (defmethod roll (how-many (object dice-set))
-  ;; WRITE ROLL METHOD DEFINITION HERE
+  (set-values (loop for i from 1 to how-many collect (1+ (random 6))) object)
 )
-
 
 (define-test test-create-dice-set
 ;; tests making an instance of the dice-set
